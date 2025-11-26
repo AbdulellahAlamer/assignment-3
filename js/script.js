@@ -1,0 +1,165 @@
+(function () {
+  // define some variabels
+  const body = document.body;
+  const themeToggle = document.querySelector(".theme-toggle");
+  const themeIcon = themeToggle
+    ? themeToggle.querySelector(".theme-toggle__icon")
+    : null;
+  const navToggle = document.querySelector(".nav-toggle");
+  const navLinks = document.querySelector(".nav__links");
+  const contactForm = document.querySelector(".contact__form");
+  const formStatus = document.querySelector(".form-status");
+  const yearEl = document.getElementById("year");
+  const greetingModal = document.getElementById("greeting-modal");
+  const greetingMessage = document.getElementById("greeting-message");
+
+  const setTheme = (theme) => {
+    const isDark = theme === "dark";
+    body.classList.toggle("dark-theme", isDark);
+    if (themeIcon) {
+      themeIcon.textContent = isDark ? "🌙" : "☀️";
+    }
+    localStorage.setItem("preferred-theme", theme);
+  };
+  // for light and dark mode
+  const getPreferredTheme = () => {
+    const stored = localStorage.getItem("preferred-theme");
+
+    if (stored) {
+      return stored;
+    }
+    return window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light";
+  };
+
+  if (themeToggle) {
+    setTheme(getPreferredTheme());
+    themeToggle.addEventListener("click", () => {
+      const current = body.classList.contains("dark-theme") ? "dark" : "light";
+      setTheme(current === "dark" ? "light" : "dark");
+    });
+  }
+
+  if (navToggle && navLinks) {
+    navToggle.addEventListener("click", () => {
+      const isOpen = navLinks.classList.toggle("is-visible");
+      navToggle.setAttribute("aria-expanded", String(isOpen));
+    });
+
+    navLinks.addEventListener("click", (event) => {
+      if (event.target instanceof HTMLAnchorElement) {
+        navLinks.classList.remove("is-visible");
+        navToggle.setAttribute("aria-expanded", "false");
+      }
+    });
+  }
+
+  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+    anchor.addEventListener("click", (event) => {
+      const targetId = anchor.getAttribute("href");
+      if (!targetId || targetId === "#") {
+        return;
+      }
+      const target = document.querySelector(targetId);
+      if (target) {
+        event.preventDefault();
+        target.scrollIntoView({ behavior: "smooth" });
+      }
+    });
+  });
+  if (contactForm) {
+    contactForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const formData = new FormData(contactForm);
+      const name = (formData.get("name") || "").trim();
+      if (!formStatus) return;
+
+      const nameRegex = /^[A-Za-z\s]{2,}$/;
+
+      if (!name) {
+        formStatus.textContent = "Please enter your name.";
+        formStatus.style.color = "red";
+      } else if (!nameRegex.test(name)) {
+        formStatus.textContent = "Please enter a valid name (letters only).";
+        formStatus.style.color = "red";
+      } else {
+        formStatus.textContent = `Thanks, ${name}!`;
+        formStatus.style.color = "green";
+        contactForm.reset();
+      }
+    });
+  }
+  if (yearEl) {
+    yearEl.textContent = new Date().getFullYear();
+  }
+
+  if (greetingModal && greetingMessage) {
+    const hour = new Date().getHours();
+    console.log(hour);
+
+    let message;
+
+    if (hour < 12) {
+      message = "Good morning!";
+    } else if (hour < 18) {
+      message = "Good afternoon!";
+    } else if (hour < 22) {
+      message = "Good evening!";
+    } else {
+      message = "Good night!";
+    }
+
+    greetingMessage.textContent = message;
+    greetingModal.hidden = false;
+    requestAnimationFrame(() => {
+      greetingModal.classList.add("is-visible");
+    });
+    setTimeout(() => {
+      greetingModal.classList.remove("is-visible");
+      setTimeout(() => {
+        greetingModal.hidden = true;
+      }, 500);
+    }, 5000);
+  }
+
+  // Expand/Collapse entire sections when clicking the eye icon
+  document.querySelectorAll(".section-toggle").forEach((button) => {
+    button.addEventListener("click", () => {
+      const section = button.closest("section");
+
+      // Toggle collapsed state
+      const isCollapsed = section.classList.toggle("collapsed");
+
+      // Update icon
+      button.innerHTML = isCollapsed
+        ? `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a21.74 21.74 0 0 1 5.06-6.88m3.67-1.63A10.94 10.94 0 0 1 12 4c7 0 11 8 11 8a21.74 21.74 0 0 1-2.22 3.18M1 1l22 22"/><path d="M9.88 9.88A3 3 0 0 0 12 15a3 3 0 0 0 2.12-.88"/></svg>`
+        : `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`;
+
+      // Hide or show only the content below the section-heading (keep heading + button visible)
+      section
+        .querySelectorAll(":scope > *:not(.section-heading)")
+        .forEach((el) => {
+          if (el.className === "section-toggle") return;
+          el.style.display = isCollapsed ? "none" : "";
+        });
+    });
+  });
+  // Custom animated circular cursor
+  const cursor = document.querySelector(".cursor-dot");
+  if (cursor) {
+    document.addEventListener("mousemove", (e) => {
+      cursor.style.top = `${e.clientY}px`;
+      cursor.style.left = `${e.clientX}px`;
+    });
+
+    // Make cursor grow when clicking
+    document.addEventListener("mousedown", () => {
+      cursor.style.transform = "translate(-50%, -50%) scale(1.6)";
+    });
+    document.addEventListener("mouseup", () => {
+      cursor.style.transform = "translate(-50%, -50%) scale(1)";
+    });
+  }
+})();
