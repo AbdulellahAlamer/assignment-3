@@ -4,6 +4,7 @@
 
 - **ChatGPT** – Assisted with translating existing portfolio content into modern generating HTML/CSS/JS, and drafting documentation including this file.Also, it help me how to use the `Open Library API
 ` that fetch the books info.
+- **What changed:** Used regularly during feature work to sanity-check logic, wording, and structure before coding.
 
 ## Use Cases
 
@@ -35,6 +36,16 @@
    - AI Output: Provided IntersectionObserver script and CSS transitions.
    - My Edits: Synced delay with heading typing animation and unified easing curves.
    - Outcome: Smooth sequential text reveal.
+6. Personalized Greeting with Stored Name
+   - Prompt: “Store the submitted name and reuse it in a greeting with visit count.”
+   - AI Output: localStorage-based name persistence and visit counter logic.
+   - My Edits: Added two-line formatting, pluralization, and safe fallbacks when storage is unavailable.
+   - Outcome: Returning visitors see a personalized greeting plus visit number.
+7. GitHub Repos Fetch & Render
+   - Prompt: “Fetch my public GitHub repos and show them in cards.”
+   - AI Output: Fetch call to GitHub REST API, parsing repo fields for display.
+   - My Edits: Added error/empty states, loading placeholders, and limited to recent repos; removed token requirement.
+   - Outcome: Latest public repos render as cards with language, stars, and updated date.
 
 ## Benefits
 
@@ -42,12 +53,14 @@
 - Immediate suggestions on accessibility and semantic HTML structure.
 - Cleaner code with reusable patterns and consistent style.
 - Faster debugging and real-time improvement of existing JavaScript functions.
+- Overall, AI sped up iteration and kept the UI consistent across sections.
 
 ## Challenges
 
 - Needed to manually tweak animation timing to align with section visibility.
 - Some AI outputs had small syntax errors (e.g., herf instead of href) requiring review.
 - Open Library data sometimes missing covers or authors, needed conditional checks.
+- Also had to validate AI text suggestions to ensure clarity and tone fit the site.
 
 ## Learning Outcomes
 
@@ -59,3 +72,5 @@
 - Learned to validate AI code, not copy blindly — understanding what each part does.
 
 - Reinforced awareness of ethical AI use: treating AI as a learning aid, not a code generator replacement.
+
+- Deepened familiarity with localStorage/state persistence patterns and integrating third-party APIs (GitHub, Open Library) with resilient UI states.

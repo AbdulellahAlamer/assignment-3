@@ -50,17 +50,10 @@ Your site will open at `http://localhost:8080` or a similar address.
 AI was used **responsibly** and **openly** while making this project.  
 All details are in [`docs/ai-usage-report.md`](docs/ai-usage-report.md).
 
-### Summary of AI use:
-
-- **ChatGPT (GPT-5)**
-
-  - Helped write JavaScript for the Open Library API section.
-  - Helped create and improve **scroll-triggered animations**.
-  - Made the **typing text effect** for headings.
-  - Added **error handling and retry** for API failures.
-
-- **Open Library API**
-  - Used to get and show real book info (title, author, cover) in the _My Favorite Books_ section.
+### Summary of AI use (short)
+- ChatGPT (GPT-5) assisted with UI polish and JS features (book fetch, GitHub repos, validation, greetings, timers).
+- GitHub Copilot provided inline suggestions during refactors.
+- Full detail and prompts are logged in `docs/ai-usage-report.md`.
 
 ---
 
