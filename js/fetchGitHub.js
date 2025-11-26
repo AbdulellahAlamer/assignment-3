@@ -5,8 +5,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const username = "AbdulellahAlamer";
 
-  // Optional: set window.GITHUB_TOKEN or localStorage.gh_token locally to raise rate limits.
-  const token = "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";
+  // Prefer token from config.js; fall back to other sources if provided.
+  const token = CONFIG.GITHUB_TOKEN;
 
   const API = `https://api.github.com/users/${username}/repos?sort=updated&per_page=6`;
 

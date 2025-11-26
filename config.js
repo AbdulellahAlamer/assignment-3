@@ -1,0 +1,3 @@
+CONFIG = {
+  GITHUB_TOKEN: "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",
+};
