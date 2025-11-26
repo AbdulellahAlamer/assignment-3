@@ -106,6 +106,10 @@
       } else {
         formStatus.textContent = `Thanks, ${name}! Your message passed all checks.`;
         formStatus.style.color = "green";
+        // Remember name for future greetings
+        if (typeof localStorage !== "undefined") {
+          localStorage.setItem("visitor_name", name);
+        }
         contactForm.reset();
       }
     });
@@ -115,8 +119,15 @@
   }
 
   if (greetingModal && greetingMessage) {
+    // Track visits in localStorage
+    let visits = 0;
+    if (typeof localStorage !== "undefined") {
+      const storedVisits = Number(localStorage.getItem("visit_count") || 0);
+      visits = Number.isFinite(storedVisits) ? storedVisits + 1 : 1;
+      localStorage.setItem("visit_count", visits);
+    }
+
     const hour = new Date().getHours();
-    console.log(hour);
 
     let message;
 
@@ -130,7 +141,22 @@
       message = "Good night!";
     }
 
-    greetingMessage.textContent = message;
+    // Personalize with stored name if present
+    const storedName =
+      (typeof localStorage !== "undefined" &&
+        localStorage.getItem("visitor_name")) ||
+      "";
+
+    // Build a friendly string, e.g., "Good morning, Alex! Visit #3"
+    const nameChunk = storedName ? `, ${storedName}` : "!";
+    const visitChunk = visits
+      ? `You have visited this page ${visits} time${
+          visits === 1 ? "" : "s"
+        }.`
+      : "";
+
+    // Two-line message: greeting on first line, visit info on second
+    greetingMessage.innerHTML = `${message}${nameChunk}<br>${visitChunk}`;
     greetingModal.hidden = false;
     requestAnimationFrame(() => {
       greetingModal.classList.add("is-visible");
