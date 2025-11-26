@@ -3,12 +3,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const grid = document.getElementById("github-repo-grid");
   if (!section || !grid) return;
 
-  const username = "AbdulellahAlamer";
-
-  // Prefer token from config.js; fall back to other sources if provided.
-  const token = CONFIG.GITHUB_TOKEN;
-
-  const API = `https://api.github.com/users/${username}/repos?sort=updated&per_page=6`;
+  // Public endpoint; no token required.
+  const API =
+    "https://api.github.com/users/AbdulellahAlamer/repos?type=public&sort=updated&per_page=6";
 
   const formatDate = (value) => {
     const date = new Date(value);
@@ -75,10 +72,6 @@ document.addEventListener("DOMContentLoaded", () => {
         Accept: "application/vnd.github+json",
         "X-GitHub-Api-Version": "2022-11-28",
       };
-      if (token) {
-        headers.Authorization = `Bearer ${token}`;
-      }
-
       const res = await fetch(API, { headers });
       if (!res.ok) {
         throw new Error(`GitHub responded with ${res.status}`);

@@ -332,6 +332,18 @@ main section {
   transform: translateX(4px);
 }
 
+.timer-display {
+  font-size: 2.4rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  margin: 0.5rem 0;
+}
+
+.timer-subtext {
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
 .project-card__media {
   margin: 0 0 1.5rem;
   border-radius: 12px;
@@ -442,6 +454,19 @@ main section {
   border-color: var(--color-primary);
   box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
   outline: none;
+}
+
+.contact__checks {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0.25rem 0 0.5rem;
+}
+
+.contact__checks input[type="checkbox"] {
+  width: auto;
+  height: auto;
+  accent-color: var(--color-primary);
 }
 
 .form-status {

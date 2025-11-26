@@ -339,6 +339,15 @@
             placeholder="you@example.com"
           />
 
+          <label for="subject">Subject</label>
+          <input
+            id="subject"
+            name="subject"
+            type="text"
+            required
+            placeholder="What’s this about?"
+          />
+
           <label for="message">Message</label>
           <textarea
             id="message"
@@ -347,6 +356,13 @@
             required
             placeholder="How can I help?"
           ></textarea>
+
+          <div class="contact__checks">
+            <label>
+              <input type="checkbox" id="consent" name="consent" /> I agree to be
+              contacted back.
+            </label>
+          </div>
 
           <button type="submit" class="button">Send Message</button>
           <p class="form-status" role="status" aria-live="polite"></p>
@@ -380,6 +396,21 @@
           <article class="card" aria-hidden="true"><h3>Loading…</h3></article>
           <article class="card" aria-hidden="true"><h3>Loading…</h3></article>
           <article class="card" aria-hidden="true"><h3>Loading…</h3></article>
+        </div>
+      </section>
+      <section class="projects" aria-live="polite">
+        <div class="section-heading">
+          <h2>Time on Page</h2>
+          <p>Simple timer to show how long you’ve been here.</p>
+        </div>
+        <div class="projects__grid">
+          <article class="card">
+            <h3>Session Timer</h3>
+            <p id="time-on-page" class="timer-display">00:00</p>
+            <p class="timer-subtext">
+              Updates every second. Resets if you refresh the page.
+            </p>
+          </article>
         </div>
       </section>
     </main>

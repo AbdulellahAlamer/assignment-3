@@ -74,18 +74,37 @@
 
       const formData = new FormData(contactForm);
       const name = (formData.get("name") || "").trim();
+      const email = (formData.get("email") || "").trim();
+      const subject = (formData.get("subject") || "").trim();
+      const message = (formData.get("message") || "").trim();
+      const consentChecked = formData.get("consent") === "on";
       if (!formStatus) return;
 
       const nameRegex = /^[A-Za-z\s]{2,}$/;
+      const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,}$/i;
+      const errors = [];
 
-      if (!name) {
-        formStatus.textContent = "Please enter your name.";
-        formStatus.style.color = "red";
-      } else if (!nameRegex.test(name)) {
-        formStatus.textContent = "Please enter a valid name (letters only).";
+      if (!name || !nameRegex.test(name)) {
+        errors.push("Name must be letters only, at least 2 characters.");
+      }
+      if (!email || !emailRegex.test(email)) {
+        errors.push("Enter a valid email address.");
+      }
+      if (!subject || subject.length < 4) {
+        errors.push("Subject must be at least 4 characters.");
+      }
+      if (!message || message.length < 20) {
+        errors.push("Message must be at least 20 characters.");
+      }
+      if (!consentChecked) {
+        errors.push("Please agree to be contacted back.");
+      }
+
+      if (errors.length) {
+        formStatus.textContent = errors.join(" ");
         formStatus.style.color = "red";
       } else {
-        formStatus.textContent = `Thanks, ${name}!`;
+        formStatus.textContent = `Thanks, ${name}! Your message passed all checks.`;
         formStatus.style.color = "green";
         contactForm.reset();
       }
@@ -161,5 +180,24 @@
     document.addEventListener("mouseup", () => {
       cursor.style.transform = "translate(-50%, -50%) scale(1)";
     });
+  }
+
+  // Session timer: tracks how long visitor has been on page
+  const timerDisplay = document.getElementById("time-on-page");
+  if (timerDisplay) {
+    let seconds = 0;
+    const format = (s) => {
+      const mins = Math.floor(s / 60)
+        .toString()
+        .padStart(2, "0");
+      const secs = (s % 60).toString().padStart(2, "0");
+      return `${mins}:${secs}`;
+    };
+    const tick = () => {
+      seconds += 1;
+      timerDisplay.textContent = format(seconds);
+    };
+    timerDisplay.textContent = format(seconds);
+    setInterval(tick, 1000);
   }
 })();
